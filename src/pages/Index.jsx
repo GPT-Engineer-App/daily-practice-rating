@@ -1,17 +1,34 @@
-// Update this page (the content is just a fallback if you fail and example)
-// Use chakra-ui
-import { Container, Text, VStack } from "@chakra-ui/react";
-
-// Example of using react-icons
-// import { FaRocket } from "react-icons/fa";
-// <IconButton aria-label="Add" icon={<FaRocket />} size="lg" />; // IconButton would also have to be imported from chakra
+import { Container, VStack, Heading, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Button, useToast } from "@chakra-ui/react";
+import { useState } from "react";
 
 const Index = () => {
+  const [rating, setRating] = useState(5);
+  const toast = useToast();
+
+  const handleSubmit = () => {
+    toast({
+      title: "Rating Submitted",
+      description: `You rated your performance as ${rating}/10.`,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
   return (
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
       <VStack spacing={4}>
-        <Text fontSize="2xl">Your Blank Canvas</Text>
-        <Text>Chat with the agent to start making edits.</Text>
+        <Heading as="h1" size="2xl">Daily Language Practice</Heading>
+        <Text fontSize="lg">Rate your performance today:</Text>
+        <Slider aria-label="performance-rating" defaultValue={5} min={0} max={10} step={1} onChange={(val) => setRating(val)}>
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb boxSize={6}>
+            <Text fontSize="sm">{rating}</Text>
+          </SliderThumb>
+        </Slider>
+        <Button colorScheme="blue" onClick={handleSubmit}>Submit Rating</Button>
       </VStack>
     </Container>
   );
